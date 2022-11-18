@@ -18,6 +18,6 @@ public class SongNameController {
     }
     @GetMapping(value = "songs/{id}")
     public Song getSong(@PathVariable String id) {
-        return new Song("中文", "http://" + id);
+        return new Song("中文");
     }
 }

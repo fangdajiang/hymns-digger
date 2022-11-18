@@ -20,9 +20,9 @@ public class LabelStudioActionController {
     }
 
     @PostMapping("/actions")
-    public Map<String, Object> updateElasticSearch(@RequestBody LabelStudioAction action) {
+    public Map<String, Object> doElasticSearch(@RequestBody LabelStudioAction action) {
         log.debug("action: {}", action);
-        return Map.of("song", elasticSearchService.update(action));
+        return Map.of("song", elasticSearchService.process(action));
     }
 
     @PostMapping("/actions2")

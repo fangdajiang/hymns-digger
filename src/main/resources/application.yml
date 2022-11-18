@@ -3,3 +3,9 @@ server:
 logging:
   level:
     root: info
+
+#spring:
+#  elasticsearch:
+#    uris: http://localhost:9200
+#    username: elastic
+#    password: mfvBqJ6ZuqxOsw_FCj=w
