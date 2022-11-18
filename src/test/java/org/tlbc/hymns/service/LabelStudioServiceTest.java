@@ -6,13 +6,11 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import javax.annotation.Resource;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 @Slf4j @SpringBootTest
-class ElasticSearchServiceTest {
+class LabelStudioServiceTest {
 
     @Resource
-    private ElasticSearchService service;
+    private LabelStudioService service;
 
     @Test
     void removeTask() {
@@ -24,7 +22,5 @@ class ElasticSearchServiceTest {
 
     @Test
     void addTask() {
-        log.debug("okok:{}", service.restTemplate);
-//        service.restTemplate.postForObject()
     }
 }

@@ -17,7 +17,7 @@ public class LabelStudioAction {
     private List<LabelStudioTask> tasks;
 
     @Getter @Setter @ToString
-    private static class LabelStudioAnnotation {
+    public static class LabelStudioAnnotation {
         private Integer id;
         private List<AnnotationResult> result;
         private Date created_at;
@@ -27,7 +27,7 @@ public class LabelStudioAction {
         private Integer completed_by;
 
         @Getter @Setter @ToString
-        private static class AnnotationResult {
+        public static class AnnotationResult {
             private ResultValue value;
             private String id;
             private String from_name;
@@ -36,7 +36,7 @@ public class LabelStudioAction {
             private String origin;
 
             @Getter @Setter @ToString
-            private static class ResultValue {
+            public static class ResultValue {
                 private List<List<String>> taxonomy;
             }
         }
@@ -56,7 +56,7 @@ public class LabelStudioAction {
     }
 
     @Getter @Setter @ToString
-    private static class LabelStudioTask {
+    public static class LabelStudioTask {
         private Integer id;
         private TaskData data;
         private Date created_at;
@@ -64,7 +64,7 @@ public class LabelStudioAction {
         private Boolean is_labeled;
 
         @Getter @Setter @ToString
-        private static class TaskData {
+        public static class TaskData {
             private String text;
         }
     }

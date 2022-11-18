@@ -10,7 +10,8 @@ import java.util.List;
 
 @Document(indexName = "song") @Data
 public class Song {
-    public Song(String nameCn) {
+    public Song(Integer id, String nameCn) {
+        this.id = id;
         this.nameCn = nameCn;
     }
     @Id

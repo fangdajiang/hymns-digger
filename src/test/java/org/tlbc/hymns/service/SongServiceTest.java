@@ -21,8 +21,7 @@ class SongServiceTest {
 
     @BeforeEach
     void setUp() {
-        song = new Song("测试");
-        song.setId(1);
+        song = new Song(12345, "测试");
         song.setNotationUrl("http://song-url");
         List<String> labels = new ArrayList<>();
         labels.add("三一");
@@ -32,37 +31,45 @@ class SongServiceTest {
     }
 
     @Test
+    void test() {
+        log.debug("new song: {}", song);
+    }
+
+    @Test
     void save() {
         Song savedSong = songService.save(song);
         assertNotNull(savedSong);
         log.debug("savedSong: {}", savedSong);
-        Song foundSong = songService.getById(1).orElse(null);
+        Song foundSong = songService.getByName(savedSong.getNameCn()).get(0);
         log.debug("foundSong: {}", foundSong);
         assertNotNull(foundSong);
     }
 
     @Test
     void delete() {
-        songService.delete(song);
-        Song foundSong = songService.getById(1).orElse(null);
+        songService.delete(12345);
+        Song foundSong = songService.getById(12345).orElse(null);
         assertNull(foundSong);
     }
 
     @Test
     void getAll() {
         List<Song> songs = songService.getAll();
+        log.debug("songs: {}", songs);
         assertTrue(songs.size() > 0);
     }
 
     @Test
     void getById() {
-        Song song = songService.getById(1).orElse(null);
+        Song song = songService.getById(12345).orElse(null);
+        log.debug("song: {}", song);
         assertNotNull(song);
     }
 
     @Test
     void getByName() {
         List<Song> songs = songService.getByName("测试");
+        log.debug("songs: {}", songs);
         assertTrue(songs.size() > 0);
     }
 

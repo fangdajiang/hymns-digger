@@ -17,8 +17,8 @@ public class SongService {
     public Song save(Song song) {
         return songRepository.save(song);
     }
-    public void delete(Song song) {
-        songRepository.delete(song);
+    public void delete(Integer id) {
+        songRepository.deleteById(id);
     }
     public List<Song> getAll() {
         List<Song> songs = new ArrayList<>();
