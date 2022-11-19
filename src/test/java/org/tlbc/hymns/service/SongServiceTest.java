@@ -9,6 +9,7 @@ import org.tlbc.hymns.model.Song;
 import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -70,6 +71,14 @@ class SongServiceTest {
     void getByName() {
         List<Song> songs = songService.getByName("测试");
         log.debug("songs: {}", songs);
+        assertTrue(songs.size() > 0);
+    }
+
+    @Test
+    void findByLabels() {
+        List<Song> songs = songService.findByLabels(List.of("真神", "赞美"));
+        List<String> songNames = songs.stream().map(Song::getNameCn).collect(Collectors.toList());
+        log.debug("song count: {}, names: {}", songs.size(), songNames);
         assertTrue(songs.size() > 0);
     }
 

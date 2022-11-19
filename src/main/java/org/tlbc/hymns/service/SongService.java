@@ -32,7 +32,13 @@ public class SongService {
     }
     public List<Song> getByName(String name) {
         List<Song> list = new ArrayList<>();
-        Iterable<Song> iterable = songRepository.findSongByNameCnLike(name);
+        Iterable<Song> iterable = songRepository.findSongsByNameCnLike(name);
+        iterable.forEach(list::add);
+        return list;
+    }
+    public List<Song> findByLabels(List<String> labels) {
+        List<Song> list = new ArrayList<>();
+        Iterable<Song> iterable = songRepository.findSongsByLabels(labels);
         iterable.forEach(list::add);
         return list;
     }

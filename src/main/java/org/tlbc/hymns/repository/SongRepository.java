@@ -8,5 +8,7 @@ import java.util.List;
 
 @Repository
 public interface SongRepository extends ElasticsearchRepository<Song, Integer> {
-    List<Song> findSongByNameCnLike(String songName);
+    List<Song> findSongsByNameCnLike(String songName);
+
+    List<Song> findSongsByLabels(List<String> labels);
 }
