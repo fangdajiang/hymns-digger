@@ -1,5 +1,6 @@
 package org.tlbc.hymns.service;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.tlbc.hymns.model.Song;
 import org.tlbc.hymns.repository.SongRepository;
@@ -9,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-@Service
+@Service @Slf4j
 public class SongService {
     @Resource
     private SongRepository songRepository;
@@ -37,10 +38,27 @@ public class SongService {
         return list;
     }
     public List<Song> findByLabels(List<String> labels) {
-        List<Song> list = new ArrayList<>();
-        Iterable<Song> iterable = songRepository.findSongsByLabels(labels);
-        iterable.forEach(list::add);
-        return list;
+        if (labels.size() > 0 && labels.size() <= 6) {
+            boolean labelIsValid = true;
+            for (String label : labels) {
+                if (label.length() > 10) {
+                    log.error("length of a SINGLE label should <= 10");
+                    labelIsValid = false;
+                    break;
+                }
+            }
+            if (labelIsValid) {
+                List<Song> list = new ArrayList<>();
+                Iterable<Song> iterable = songRepository.findSongsByLabels(labels);
+                iterable.forEach(list::add);
+                return list;
+            } else {
+                return List.of();
+            }
+        } else {
+            log.error("size of labels should > 0 and <= 6");
+            return List.of();
+        }
     }
     public long count() {
         return songRepository.count();
