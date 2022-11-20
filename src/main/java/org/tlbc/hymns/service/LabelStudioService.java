@@ -39,6 +39,7 @@ public class LabelStudioService {
     public void createTasks(LabelStudioAction action) {
         for (LabelStudioAction.LabelStudioTask task : action.getTasks()) {
             Song song = new Song(task.getId(), task.getData().getText());
+            song.setLabeled(task.getIs_labeled());
             Song savedSong = songService.save(song);
             log.debug("savedSong: {}", savedSong);
         }
@@ -59,12 +60,14 @@ public class LabelStudioService {
             return savedSong;
         });
         song.setLabels(getNewLabels(action));
+        song.setLabeled(action.getTask().getIs_labeled());
         Song savedSong = songService.save(song);
         log.debug("savedSong: {} when creating annotation", savedSong);
     }
     public void updateAnnotation(LabelStudioAction action) {
         Song song = songService.getById(action.getTask().getId()).orElseThrow();
         song.setLabels(getNewLabels(action));
+        song.setLabeled(action.getTask().getIs_labeled());
         Song savedSong = songService.save(song);
         log.debug("savedSong: {} when updating annotation", savedSong);
     }

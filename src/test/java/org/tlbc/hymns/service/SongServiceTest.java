@@ -5,6 +5,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.tlbc.hymns.model.Song;
+import org.tlbc.hymns.model.SongSummary;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
@@ -85,5 +86,12 @@ class SongServiceTest {
     @Test
     void count() {
         assertTrue(songService.count() > 0);
+    }
+
+    @Test
+    void getSummary() {
+        SongSummary songSummary = songService.getSummary();
+        log.debug("songSummary: {}", songSummary);
+        assertTrue(songSummary.getTotalNumber() > 0);
     }
 }

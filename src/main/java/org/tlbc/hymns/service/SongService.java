@@ -3,6 +3,7 @@ package org.tlbc.hymns.service;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.tlbc.hymns.model.Song;
+import org.tlbc.hymns.model.SongSummary;
 import org.tlbc.hymns.repository.SongRepository;
 
 import javax.annotation.Resource;
@@ -15,6 +16,11 @@ public class SongService {
     @Resource
     private SongRepository songRepository;
 
+    public SongSummary getSummary() {
+        List<Song> allSongs = getAll();
+        List<Song> annotatedSongs = songRepository.findSongsByLabeled(true);
+        return new SongSummary(allSongs.size(), annotatedSongs.size());
+    }
     public Song save(Song song) {
         return songRepository.save(song);
     }

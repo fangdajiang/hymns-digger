@@ -14,6 +14,11 @@ public class LabelStudioActionController {
     @Resource
     private LabelStudioService labelStudioService;
 
+    @GetMapping("/flush")
+    public Integer flush() {
+        return 0;
+    }
+
     @GetMapping("/tasks")
     public List<LabelStudioAction> getTasks() {
         return null;

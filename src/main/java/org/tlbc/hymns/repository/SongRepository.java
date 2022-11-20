@@ -11,4 +11,6 @@ public interface SongRepository extends ElasticsearchRepository<Song, Integer> {
     List<Song> findSongsByNameCnLike(String songName);
 
     List<Song> findSongsByLabels(List<String> labels);
+
+    List<Song> findSongsByLabeled(Boolean labeled);
 }

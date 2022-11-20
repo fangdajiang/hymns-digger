@@ -27,4 +27,6 @@ public class Song {
     private String composers;
     private int age;
     private String copyright;
+
+    private boolean labeled;
 }
