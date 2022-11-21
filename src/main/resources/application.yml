@@ -3,7 +3,9 @@ server:
 logging:
   level:
     root: info
-
+elasticsearch:
+  # set in IDE under dev environment
+  hostAndPort: ${ELASTIC_SEARCH_HOST_AND_PORT}
 #spring:
 #  elasticsearch:
 #    uris: http://localhost:9200
