@@ -38,10 +38,7 @@ public class SongService {
         return songRepository.findById(id);
     }
     public List<Song> getByName(String name) {
-        List<Song> list = new ArrayList<>();
-        Iterable<Song> iterable = songRepository.findSongsByNameCnLike(name);
-        iterable.forEach(list::add);
-        return list;
+        return songRepository.findSongsByNameCnLike(name);
     }
     public List<Song> findByLabels(List<String> labels) {
         if (labels.size() > 0 && labels.size() <= 6) {

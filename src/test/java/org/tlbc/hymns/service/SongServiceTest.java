@@ -70,8 +70,8 @@ class SongServiceTest {
 
     @Test
     void getByName() {
-        List<Song> songs = songService.getByName("测试");
-        log.debug("songs: {}", songs);
+        List<Song> songs = songService.getByName("爱主更深");
+        log.debug("songs size:{}  , {}", songs.size(), songs);
         assertTrue(songs.size() > 0);
     }
 
