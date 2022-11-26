@@ -1,8 +1,5 @@
 server:
   port: 8082
-logging:
-  level:
-    root: info
 elasticsearch:
   # set in IDE under dev environment
   hostAndPort: ${ELASTIC_SEARCH_HOST_AND_PORT}

@@ -51,10 +51,7 @@ public class SongService {
                 }
             }
             if (labelIsValid) {
-                List<Song> list = new ArrayList<>();
-                Iterable<Song> iterable = songRepository.findSongsByLabels(labels);
-                iterable.forEach(list::add);
-                return list;
+                return new ArrayList<>(songRepository.findSongsByLabels(labels));
             } else {
                 return List.of();
             }
