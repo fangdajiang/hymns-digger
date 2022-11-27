@@ -5,7 +5,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.tlbc.hymns.model.Song;
 import org.tlbc.hymns.model.dto.CreateLabelDTO;
-import org.tlbc.hymns.model.dto.CreateLabelRequest;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -44,7 +43,7 @@ class LabelStudioServiceTest {
 
     @Test
     void createLabel() {
-        CreateLabelDTO createLabelDTO = service.createLabels(1, List.of(List.of("神", "三一"), List.of("神", "真神")));
+        CreateLabelDTO createLabelDTO = service.createLabels(1, List.of("三一", "真神"));
         log.debug("createLabelDTO: {}", createLabelDTO);
     }
 

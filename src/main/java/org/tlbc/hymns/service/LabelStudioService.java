@@ -70,10 +70,12 @@ public class LabelStudioService {
         return t;
     }
 
-    public CreateLabelDTO createLabels(Integer projectId, List<List<String>> taxonomy) {
-        CreateLabelRequest createLabelRequest = new CreateLabelRequest(projectId, "taxonomy", taxonomy);
-        log.debug("createLabelRequest json: {}", JSON.toJSONString(createLabelRequest));
-        String createLabelRequestJson = JSON.toJSONString(List.of(createLabelRequest));
+    public CreateLabelDTO createLabels(Integer projectId, List<String> labels) {
+        List<CreateLabelRequest> createLabelRequestList = new ArrayList<>();
+        for (String label : labels) {
+            createLabelRequestList.add(new CreateLabelRequest(projectId, "taxonomy", "去读", label));
+        }
+        String createLabelRequestJson = JSON.toJSONString(createLabelRequestList);
         log.debug("createLabelRequest json list: {}", createLabelRequestJson);
         List<?> createLabelDTOList = sendHttpRequest("http://localhost:8080/api/labels", HttpMethod.POST,
                 createLabelRequestJson, List.class, null).getBody();
@@ -102,7 +104,8 @@ public class LabelStudioService {
                 l.add(label);
                 taxonomy.add(l);
             }
-            CreateLabelDTO createLabelDTO = createLabels(createTaskDTO.getProject(), taxonomy);
+            CreateLabelDTO createLabelDTO = createLabels(createTaskDTO.getProject(), labels);
+            log.debug("labels created: {}", createLabelDTO);
 
             ResultValueDTO resultValueDTO = new ResultValueDTO();
             resultValueDTO.setTaxonomy(taxonomy);
