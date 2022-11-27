@@ -10,23 +10,24 @@ import java.util.List;
 
 @Document(indexName = "song") @Data
 public class Song {
-    public Song(Integer id, String nameCn) {
+    public Song(Integer id, String nameCn, String nameEn, String category1, String category2) {
         this.id = id;
         this.nameCn = nameCn;
+        this.nameEn = nameEn;
+        this.category1 = category1;
+        this.category2 = category2;
     }
     @Id
     private Integer id;
     @Field(analyzer = "ik_max_word", searchAnalyzer = "ik_max_word", type = FieldType.Text)
     private String nameCn;
     @Field(analyzer = "ik_smart", searchAnalyzer = "ik_smart", type = FieldType.Text)
-    private List<String> labels;
+    private String labels;
     private String notationUrl;
 
     private String nameEn;
-    private String lyricists;
-    private String composers;
-    private int age;
-    private String copyright;
+    private String category1;
+    private String category2;
 
     private boolean labeled;
 }

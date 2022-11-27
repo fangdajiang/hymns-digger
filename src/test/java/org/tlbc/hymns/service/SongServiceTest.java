@@ -23,13 +23,9 @@ class SongServiceTest {
 
     @BeforeEach
     void setUp() {
-        song = new Song(12345, "测试");
+        song = new Song(12345, "测试", "Eng", "分类1", "分类2");
         song.setNotationUrl("http://song-url");
-        List<String> labels = new ArrayList<>();
-        labels.add("三一");
-        labels.add("公义");
-        labels.add("圣洁");
-        song.setLabels(labels);
+        song.setLabels("三一 公义 圣洁");
     }
 
     @Test

@@ -26,6 +26,6 @@ public class SongNameController {
     }
     @GetMapping(value = "/{id}")
     public Song getSong(@PathVariable Integer id) {
-        return new Song(id, "中文");
+        return new Song(id, "中文", "Eng", "分类1", "分类2");
     }
 }
