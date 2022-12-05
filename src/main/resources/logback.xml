@@ -11,9 +11,9 @@
 		</encoder>
 	</appender>
 
-	<root level="INFO">
-		<appender-ref ref="console" />
-	</root>
+<!--	<root level="INFO">-->
+<!--		<appender-ref ref="console" />-->
+<!--	</root>-->
 	<logger name="org.tlbc.hymns" level="DEBUG" />
 
 </configuration>
