@@ -8,6 +8,7 @@ import org.tlbc.hymns.model.CategoryLabel;
 import javax.annotation.Resource;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Slf4j @SpringBootTest
@@ -27,8 +28,29 @@ class ConverterServiceTest {
     }
 
     @Test
-    void getTaxonomyString() {
-        String s = converterService.getTaxonomyString();
+    void getBasicLabel() {
+        Set<String> basicLabels = converterService.getBasicLabel();
+        log.debug("basicLabels size:{}, {}", basicLabels.size(), basicLabels);
+    }
+
+    @Test
+    void getTaxonomyXml() {
+        String s = converterService.getTaxonomyXml();
         log.debug("s: {}", s);
+    }
+    @Test
+    void getTaxonomyBasicLabelXml() {
+        String s = converterService.getTaxonomyBasicLabelXml();
+        log.debug("s: {}", s);
+    }
+    @Test
+    void getTaxonomyBasicLabelJson() {
+        String s = converterService.getTaxonomyBasicLabelJson();
+        log.debug("s: {}", s);
+    }
+
+    @Test
+    void writeTaxonomyBasicLabelJson() {
+        converterService.writeTaxonomyBasicLabelJson();
     }
 }
