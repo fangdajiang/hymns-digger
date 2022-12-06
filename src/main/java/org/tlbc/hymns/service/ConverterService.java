@@ -11,6 +11,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.tlbc.hymns.model.CategoryLabel;
 import org.tlbc.hymns.model.json.BasicLabel;
+import org.tlbc.hymns.model.json.NewLabel;
+import org.tlbc.hymns.model.json.TaxonomyLabelPair;
 import org.tlbc.hymns.model.xml.*;
 import org.tlbc.hymns.repository.CategoryLabelRepository;
 
@@ -23,13 +25,20 @@ import java.util.stream.Collectors;
 public class ConverterService {
 
     private static final XmlMapper XML_MAPPER = new XmlMapper();
+    private static final JsonMapper JSON_MAPPER = new JsonMapper();
+    private static final String BASIC_LABELS_PATH = "src/main/resources/json/basic_labels.json";
+    private static final String NEW_LABELS_PATH_PREFIX = "src/main/resources/json/new_labels";
+    private static final String NEW_LABELS_PATH_SUFFIX = ".json";
 
     @Resource
     private CategoryLabelRepository categoryLabelRepository;
 
     public Map<String, List<CategoryLabel>> getTaxonomy() {
-        List<CategoryLabel> list = categoryLabelRepository.findAll(Sort.by(Sort.Direction.DESC, "category"));
-        return list.stream().collect(Collectors.groupingBy(CategoryLabel::getCategory));
+        return getCategoryLabels().stream().collect(Collectors.groupingBy(CategoryLabel::getCategory));
+    }
+
+    public List<CategoryLabel> getCategoryLabels() {
+        return categoryLabelRepository.findAll(Sort.by(Sort.Direction.DESC, "category"));
     }
 
     public String getTaxonomyXml() {
@@ -55,11 +64,10 @@ public class ConverterService {
     }
 
     public String getTaxonomyBasicLabelJson() {
-        JsonMapper jsonMapper = new JsonMapper();
         BasicLabel basicLabel = new BasicLabel(getTaxonomyBasicLabelXml());
         String s = "";
         try {
-            s = jsonMapper.writeValueAsString(basicLabel);
+            s = JSON_MAPPER.writeValueAsString(basicLabel);
         } catch (IOException e) {
             log.error("getTaxonomyBasicLabelJson ERROR", e);
         }
@@ -68,7 +76,7 @@ public class ConverterService {
 
     public void writeTaxonomyBasicLabelJson() {
         try {
-            FileUtil.writeString(getTaxonomyBasicLabelJson(), new File("src/main/resources/json/basic_labels.json"), CharsetUtil.CHARSET_UTF_8);
+            FileUtil.writeString(getTaxonomyBasicLabelJson(), new File(BASIC_LABELS_PATH), CharsetUtil.CHARSET_UTF_8);
         } catch (IORuntimeException e) {
             log.error("writeTaxonomyBasicLabelJson ERROR", e);
         }
@@ -94,4 +102,55 @@ public class ConverterService {
         }
         return s;
     }
+    public String getTaxonomyItemXml(List<String> labelPair) {
+        String s = "";
+        try {
+            TaxonomyLabelPair taxonomyLabelPair = new TaxonomyLabelPair(labelPair);
+            s = JSON_MAPPER.writeValueAsString(taxonomyLabelPair);
+        } catch (JsonProcessingException e) {
+            log.error("writeValueAsString ERROR", e);
+        }
+        return s;
+    }
+    public List<NewLabel> getTaxonomyNewLabels() {
+        List<NewLabel> newLabels = new ArrayList<>();
+        getCategoryLabels().forEach((cl) -> {
+            NewLabel newLabel = new NewLabel();
+            newLabel.setValue(List.of(cl.getCategory(), cl.getLabel()));
+            newLabel.setTitle(getTaxonomyItemXml(List.of(cl.getCategory(), cl.getLabel())));
+            log.debug("newLabel:{}", newLabel);
+            newLabels.add(newLabel);
+        });
+        return newLabels;
+    }
+    public static <T> List<List<T>> getPages(Collection<T> c, Integer pageSize) {
+        if (c == null)
+            return Collections.emptyList();
+        List<T> list = new ArrayList<>(c);
+        if (pageSize == null || pageSize <= 0 || pageSize > list.size())
+            pageSize = list.size();
+        int numPages = (int) Math.ceil((double)list.size() / (double)pageSize);
+        List<List<T>> pages = new ArrayList<>(numPages);
+        for (int pageNum = 0; pageNum < numPages;)
+            pages.add(list.subList(pageNum * pageSize, Math.min(++pageNum * pageSize, list.size())));
+        return pages;
+    }
+    public void writeTaxonomyNewLabelJson() {
+        List<NewLabel> newLabels = getTaxonomyNewLabels();
+        Integer pageSize = 200;
+        List<List<NewLabel>> list = ConverterService.getPages(newLabels, pageSize);
+        for (int i = 0; i < list.size(); i++) {
+            try {
+                FileUtil.writeString(JSON_MAPPER.writeValueAsString(list.get(i)),
+                        new File(NEW_LABELS_PATH_PREFIX + i + NEW_LABELS_PATH_SUFFIX),
+                        CharsetUtil.CHARSET_UTF_8
+                );
+            } catch (IOException e) {
+                log.error("writeValueAsString ERROR", e);
+            } catch (IORuntimeException e) {
+                log.error("writeTaxonomyNewLabelJson ERROR", e);
+            }
+        }
+    }
+
 }

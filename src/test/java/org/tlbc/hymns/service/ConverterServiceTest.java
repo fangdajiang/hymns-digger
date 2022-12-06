@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.tlbc.hymns.model.CategoryLabel;
+import org.tlbc.hymns.model.json.NewLabel;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -52,5 +53,31 @@ class ConverterServiceTest {
     @Test
     void writeTaxonomyBasicLabelJson() {
         converterService.writeTaxonomyBasicLabelJson();
+    }
+
+    @Test
+    void getTaxonomyNewLabels() {
+        List<NewLabel> newLabels = converterService.getTaxonomyNewLabels();
+        log.debug("newLabels: {}", newLabels);
+    }
+
+    @Test
+    void getTaxonomyItemXml() {
+        String s = converterService.getTaxonomyItemXml(List.of("神", "耶稣基督圣子"));
+        log.debug("s: {}", s);
+    }
+
+    @Test
+    void writeTaxonomyNewLabelJson() {
+        converterService.writeTaxonomyNewLabelJson();
+    }
+
+    @Test
+    void getCategoryLabels() {
+        List<CategoryLabel> categoryLabels = converterService.getCategoryLabels();
+        log.debug("categoryLabels size: {}", categoryLabels.size());
+        List<List<CategoryLabel>> list = ConverterService.getPages(categoryLabels, 100);
+        log.debug("list size: {}", list.size());
+        log.debug("list 0 size: {}", list.get(0).size());
     }
 }
