@@ -10,8 +10,8 @@ import javax.persistence.*;
 @Getter
 @Setter
 @ToString
-@Table(name = "category_label")
-public class CategoryLabel {
+@Table(name = "category_label", schema = "digger")
+public class CategoryLabelEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id", nullable = false)

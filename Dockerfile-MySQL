@@ -1,0 +1,11 @@
+FROM mysql:8.0.31
+
+ENV MYSQL_DATABASE=digger
+ENV MYSQL_ROOT_PASSWORD=123456
+
+CMD ["--character-set-server=utf8mb4", "--collation-server=utf8mb4_general_ci", "--host_cache_size=0"]
+
+COPY src/main/resources/db/init.sql /docker-entrypoint-initdb.d
+COPY src/main/resources/db/hymn.sql /docker-entrypoint-initdb.d
+
+EXPOSE 3306

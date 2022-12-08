@@ -4,7 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.tlbc.hymns.helper.PaginationHelper;
-import org.tlbc.hymns.model.CategoryLabel;
+import org.tlbc.hymns.model.CategoryLabelEntity;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -21,10 +21,10 @@ class LabelServiceTest {
 
     @Test
     void getCategoryLabels() {
-        List<CategoryLabel> categoryLabels = labelService.getCategoryLabels();
-        log.debug("categoryLabels size: {}", categoryLabels.size());
-        assertTrue(categoryLabels.size() > 0);
-        List<List<CategoryLabel>> list = PaginationHelper.getPages(categoryLabels, 200);
+        List<CategoryLabelEntity> categoryLabelEntities = labelService.getCategoryLabels();
+        log.debug("categoryLabels size: {}", categoryLabelEntities.size());
+        assertTrue(categoryLabelEntities.size() > 0);
+        List<List<CategoryLabelEntity>> list = PaginationHelper.getPages(categoryLabelEntities, 200);
         log.debug("list size: {}", list.size());
         assertTrue(list.size() > 0);
         log.debug("list 0 size: {}", list.get(0).size());

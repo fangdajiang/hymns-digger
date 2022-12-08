@@ -3,7 +3,7 @@ package org.tlbc.hymns.service;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.tlbc.hymns.model.Song;
+import org.tlbc.hymns.model.ElasticSearchSong;
 import org.tlbc.hymns.model.dto.CreateLabelDTO;
 
 import javax.annotation.Resource;
@@ -25,8 +25,8 @@ class LabelStudioServiceTest {
 
     @Test
     void retrieveDataFromLabelStudio() {
-        Song song = service.retrieveDataFromLabelStudio(3);
-        log.debug("song retrieved from Label Studio: {}", song);
+        ElasticSearchSong elasticSearchSong = service.retrieveDataFromLabelStudio(3);
+        log.debug("song retrieved from Label Studio: {}", elasticSearchSong);
     }
 
     @Test

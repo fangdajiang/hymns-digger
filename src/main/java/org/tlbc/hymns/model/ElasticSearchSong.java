@@ -6,16 +6,14 @@ import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.annotations.Field;
 import org.springframework.data.elasticsearch.annotations.FieldType;
 
-import java.util.List;
-
 @Document(indexName = "song") @Data
-public class Song {
-    public Song(Integer id, String nameCn, String nameEn, String category1, String category2) {
+public class ElasticSearchSong {
+    public ElasticSearchSong(Integer id, String category1, String category2, String nameCn, String nameEn) {
         this.id = id;
-        this.nameCn = nameCn;
-        this.nameEn = nameEn;
         this.category1 = category1;
         this.category2 = category2;
+        this.nameCn = nameCn;
+        this.nameEn = nameEn;
     }
     @Id
     private Integer id;
@@ -28,6 +26,8 @@ public class Song {
     private String nameEn;
     private String category1;
     private String category2;
+    private String bookName;
+    private String verse;
 
     private boolean labeled;
 }

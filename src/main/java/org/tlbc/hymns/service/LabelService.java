@@ -3,7 +3,7 @@ package org.tlbc.hymns.service;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-import org.tlbc.hymns.model.CategoryLabel;
+import org.tlbc.hymns.model.CategoryLabelEntity;
 import org.tlbc.hymns.repository.CategoryLabelRepository;
 
 import javax.annotation.Resource;
@@ -17,7 +17,7 @@ public class LabelService {
     @Resource
     private CategoryLabelRepository categoryLabelRepository;
 
-    public List<CategoryLabel> getCategoryLabels() {
+    public List<CategoryLabelEntity> getCategoryLabels() {
         return categoryLabelRepository.findAll(Sort.by(Sort.Direction.DESC, "category"));
     }
     public Set<String> getBasicLabel() {

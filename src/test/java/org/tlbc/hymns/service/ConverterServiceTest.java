@@ -4,7 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.tlbc.hymns.helper.PaginationHelper;
-import org.tlbc.hymns.model.CategoryLabel;
+import org.tlbc.hymns.model.CategoryLabelEntity;
 import org.tlbc.hymns.model.json.NewLabel;
 
 import javax.annotation.Resource;
@@ -21,10 +21,10 @@ class ConverterServiceTest {
 
     @Test
     void getTaxonomy() {
-        Map<String, List<CategoryLabel>> map = converterService.getTaxonomy();
+        Map<String, List<CategoryLabelEntity>> map = converterService.getTaxonomy();
         log.debug("taxonomy size: {}", map.size());
         map.forEach((k, v) -> {
-            List<String> labels = v.stream().map(CategoryLabel::getLabel).collect(Collectors.toList());
+            List<String> labels = v.stream().map(CategoryLabelEntity::getLabel).collect(Collectors.toList());
             log.debug("k:{}, v.label:{}", k, labels);
         });
     }
@@ -75,9 +75,9 @@ class ConverterServiceTest {
 
     @Test
     void getCategoryLabels() {
-        List<CategoryLabel> categoryLabels = converterService.getCategoryLabels();
-        log.debug("categoryLabels size: {}", categoryLabels.size());
-        List<List<CategoryLabel>> list = PaginationHelper.getPages(categoryLabels, 100);
+        List<CategoryLabelEntity> categoryLabelEntities = converterService.getCategoryLabels();
+        log.debug("categoryLabels size: {}", categoryLabelEntities.size());
+        List<List<CategoryLabelEntity>> list = PaginationHelper.getPages(categoryLabelEntities, 100);
         log.debug("list size: {}", list.size());
         log.debug("list 0 size: {}", list.get(0).size());
     }

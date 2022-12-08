@@ -10,7 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.tlbc.hymns.helper.PaginationHelper;
-import org.tlbc.hymns.model.CategoryLabel;
+import org.tlbc.hymns.model.CategoryLabelEntity;
 import org.tlbc.hymns.model.json.BasicLabel;
 import org.tlbc.hymns.model.json.NewLabel;
 import org.tlbc.hymns.model.json.TaxonomyLabelPair;
@@ -34,11 +34,11 @@ public class ConverterService {
     @Resource
     private CategoryLabelRepository categoryLabelRepository;
 
-    public Map<String, List<CategoryLabel>> getTaxonomy() {
-        return getCategoryLabels().stream().collect(Collectors.groupingBy(CategoryLabel::getCategory));
+    public Map<String, List<CategoryLabelEntity>> getTaxonomy() {
+        return getCategoryLabels().stream().collect(Collectors.groupingBy(CategoryLabelEntity::getCategory));
     }
 
-    public List<CategoryLabel> getCategoryLabels() {
+    public List<CategoryLabelEntity> getCategoryLabels() {
         return categoryLabelRepository.findAll(Sort.by(Sort.Direction.DESC, "category"));
     }
 
@@ -49,7 +49,7 @@ public class ConverterService {
             view.setText(new Text("text", "$text"));
             List<Choice> choices = new ArrayList<>();
             getTaxonomy().forEach((k, v) -> {
-                List<String> labels = v.stream().map(CategoryLabel::getLabel).collect(Collectors.toList());
+                List<String> labels = v.stream().map(CategoryLabelEntity::getLabel).collect(Collectors.toList());
                 log.debug("k:{}, v.label:{}", k, labels);
                 List<ChoiceSub> choiceSubs = labels.stream().map(ChoiceSub::new).collect(Collectors.toList());
                 log.debug("choiceSubs:{}", choiceSubs);

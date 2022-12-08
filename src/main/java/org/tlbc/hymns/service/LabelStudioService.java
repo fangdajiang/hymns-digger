@@ -11,7 +11,7 @@ import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.tlbc.hymns.model.LabelStudioAction;
-import org.tlbc.hymns.model.Song;
+import org.tlbc.hymns.model.ElasticSearchSong;
 import org.tlbc.hymns.model.dto.*;
 
 import javax.annotation.Resource;
@@ -26,13 +26,13 @@ public class LabelStudioService {
     public static final String BASE_CHAR_NUMBER = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
 
     @Resource
-    private SongService songService;
+    private ElasticSearchSongService elasticSearchSongService;
 
     private enum ACTION {
         ANNOTATION_CREATED, ANNOTATION_UPDATED, TASKS_CREATED, TASKS_DELETED, LABEL_LINK_CREATED
     }
 
-    public Song process(LabelStudioAction action) {
+    public ElasticSearchSong process(LabelStudioAction action) {
         if (ACTION.TASKS_CREATED.name().equals(action.getAction())) {
             createTasks(action);
         } else if (ACTION.TASKS_DELETED.name().equals(action.getAction())) {
@@ -47,14 +47,14 @@ public class LabelStudioService {
         } else {
             log.error("Illegal action: {}", action.getAction());
         }
-        return new Song(123, "中文", "Eng", "分类1", "分类2");
+        return new ElasticSearchSong(123, "中文", "Eng", "分类1", "分类2");
     }
     public void createTasks(LabelStudioAction action) {
         for (LabelStudioAction.LabelStudioTask task : action.getTasks()) {
-            Song song = retrieveDataFromLabelStudio(task.getId());
-            if (ObjectUtil.isNotNull(song)) {
-                Song savedSong = songService.save(song);
-                log.debug("savedSong: {}", savedSong);
+            ElasticSearchSong elasticSearchSong = retrieveDataFromLabelStudio(task.getId());
+            if (ObjectUtil.isNotNull(elasticSearchSong)) {
+                ElasticSearchSong savedElasticSearchSong = elasticSearchSongService.save(elasticSearchSong);
+                log.debug("savedSong: {}", savedElasticSearchSong);
             } else {
                 log.warn("retrieve data from label studio failed, task id:{}, action:{}", task.getId(), action);
             }
@@ -138,53 +138,53 @@ public class LabelStudioService {
         return restTemplate.exchange(url, httpMethod, new HttpEntity<>(json, headers), responseType, param);
     }
 
-    public Song retrieveDataFromLabelStudio(Integer taskId) {
+    public ElasticSearchSong retrieveDataFromLabelStudio(Integer taskId) {
         CreateTaskDTO createTaskDTO = sendHttpRequest("http://localhost:8080/api/tasks/{1}", HttpMethod.GET,
                 null, CreateTaskDTO.class, taskId.toString()).getBody();
         log.debug("createTaskDTO: {}", createTaskDTO);
         assert createTaskDTO != null;
         Integer annotationId = fillInAnnotationsBackToLabelStudio(createTaskDTO);
         if (annotationId > 0) {
-            Song song = new Song(taskId, createTaskDTO.getData().getText(),
+            ElasticSearchSong elasticSearchSong = new ElasticSearchSong(taskId, createTaskDTO.getData().getText(),
                     createTaskDTO.getData().getNameEn(),
                     createTaskDTO.getData().getCategory1(),
                     createTaskDTO.getData().getCategory2());
             String labelsString = createTaskDTO.getData().getLabels();
             if (!StrUtil.isBlank(labelsString)) {
-                song.setLabels(labelsString);
-                song.setLabeled(true);
+                elasticSearchSong.setLabels(labelsString);
+                elasticSearchSong.setLabeled(true);
             }
-            return song;
+            return elasticSearchSong;
         } else {
             return null;
         }
     }
     public void deleteTask(LabelStudioAction action) {
         for (LabelStudioAction.LabelStudioTask task : action.getTasks()) {
-            songService.delete(task.getId());
+            elasticSearchSongService.delete(task.getId());
             log.debug("song deleted, id: {}", task.getId());
         }
     }
 
     public void createAnnotation(LabelStudioAction action) {
-        Song song = songService.getById(action.getTask().getId()).orElseGet(() -> {
+        ElasticSearchSong elasticSearchSong = elasticSearchSongService.getById(action.getTask().getId()).orElseGet(() -> {
             log.debug("ready to add song, id:{}, name:{}", action.getTask().getId(), action.getTask().getData().getText());
-            Song newSong = new Song(action.getTask().getId(), action.getTask().getData().getText(), "", "", "");
-            Song savedSong = songService.save(newSong);
-            log.debug("savedSong: {} when creating annotation", savedSong);
-            return savedSong;
+            ElasticSearchSong newElasticSearchSong = new ElasticSearchSong(action.getTask().getId(), action.getTask().getData().getText(), "", "", "");
+            ElasticSearchSong savedElasticSearchSong = elasticSearchSongService.save(newElasticSearchSong);
+            log.debug("savedSong: {} when creating annotation", savedElasticSearchSong);
+            return savedElasticSearchSong;
         });
-        song.setLabels(getNewLabels(action));
-        song.setLabeled(action.getTask().getIs_labeled());
-        Song savedSong = songService.save(song);
-        log.debug("savedSong: {} when creating annotation", savedSong);
+        elasticSearchSong.setLabels(getNewLabels(action));
+        elasticSearchSong.setLabeled(action.getTask().getIs_labeled());
+        ElasticSearchSong savedElasticSearchSong = elasticSearchSongService.save(elasticSearchSong);
+        log.debug("savedSong: {} when creating annotation", savedElasticSearchSong);
     }
     public void updateAnnotation(LabelStudioAction action) {
-        Song song = songService.getById(action.getTask().getId()).orElseThrow();
-        song.setLabels(getNewLabels(action));
-        song.setLabeled(action.getTask().getIs_labeled());
-        Song savedSong = songService.save(song);
-        log.debug("savedSong: {} when updating annotation", savedSong);
+        ElasticSearchSong elasticSearchSong = elasticSearchSongService.getById(action.getTask().getId()).orElseThrow();
+        elasticSearchSong.setLabels(getNewLabels(action));
+        elasticSearchSong.setLabeled(action.getTask().getIs_labeled());
+        ElasticSearchSong savedElasticSearchSong = elasticSearchSongService.save(elasticSearchSong);
+        log.debug("savedSong: {} when updating annotation", savedElasticSearchSong);
     }
 
     private static String getNewLabels(LabelStudioAction action) {

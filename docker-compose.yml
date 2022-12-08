@@ -1,0 +1,29 @@
+version: '3'
+services:
+  hymns-digger:
+    container_name: hd
+    image: hymns-digger:0.1.0
+    ports:
+      - "8082:8082"
+    restart: unless-stopped
+    environment:
+      ELASTIC_SEARCH_HOST_AND_PORT: ${ELASTIC_SEARCH_HOST_AND_PORT}
+      SPRING_DATASOURCE_URL: jdbc:mysql://hymns-mysql:3306/digger?useUnicode=true&autoReconnect=true&characterEncoding=UTF-8
+    depends_on:
+      - phpmyadmin
+  hymns-mysql:
+    container_name: hm
+    image: hymns-mysql:0.1.0
+    ports:
+      - "3306:3306"
+    restart: unless-stopped
+  phpmyadmin:
+    container_name: pma
+    image: phpmyadmin/phpmyadmin
+    ports:
+      - "8085:80"
+    links:
+      - hymns-mysql:db
+    restart: unless-stopped
+    depends_on:
+      - hymns-mysql
