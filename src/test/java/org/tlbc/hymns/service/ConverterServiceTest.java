@@ -3,6 +3,7 @@ package org.tlbc.hymns.service;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.tlbc.hymns.helper.PaginationHelper;
 import org.tlbc.hymns.model.CategoryLabel;
 import org.tlbc.hymns.model.json.NewLabel;
 
@@ -76,7 +77,7 @@ class ConverterServiceTest {
     void getCategoryLabels() {
         List<CategoryLabel> categoryLabels = converterService.getCategoryLabels();
         log.debug("categoryLabels size: {}", categoryLabels.size());
-        List<List<CategoryLabel>> list = ConverterService.getPages(categoryLabels, 100);
+        List<List<CategoryLabel>> list = PaginationHelper.getPages(categoryLabels, 100);
         log.debug("list size: {}", list.size());
         log.debug("list 0 size: {}", list.get(0).size());
     }

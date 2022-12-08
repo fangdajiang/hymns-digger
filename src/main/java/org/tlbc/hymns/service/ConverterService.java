@@ -9,6 +9,7 @@ import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.tlbc.hymns.helper.PaginationHelper;
 import org.tlbc.hymns.model.CategoryLabel;
 import org.tlbc.hymns.model.json.BasicLabel;
 import org.tlbc.hymns.model.json.NewLabel;
@@ -84,7 +85,7 @@ public class ConverterService {
 
     public Set<String> getBasicLabel() {
         Set<String> set = new HashSet<>();
-        categoryLabelRepository.findAll(Sort.by(Sort.Direction.DESC, "category")).forEach((c) -> set.add(c.getCategory()));
+        getCategoryLabels().forEach((c) -> set.add(c.getCategory()));
         return set;
     }
     public String getTaxonomyBasicLabelXml() {
@@ -123,22 +124,11 @@ public class ConverterService {
         });
         return newLabels;
     }
-    public static <T> List<List<T>> getPages(Collection<T> c, Integer pageSize) {
-        if (c == null)
-            return Collections.emptyList();
-        List<T> list = new ArrayList<>(c);
-        if (pageSize == null || pageSize <= 0 || pageSize > list.size())
-            pageSize = list.size();
-        int numPages = (int) Math.ceil((double)list.size() / (double)pageSize);
-        List<List<T>> pages = new ArrayList<>(numPages);
-        for (int pageNum = 0; pageNum < numPages;)
-            pages.add(list.subList(pageNum * pageSize, Math.min(++pageNum * pageSize, list.size())));
-        return pages;
-    }
+
     public void writeTaxonomyNewLabelJson() {
         List<NewLabel> newLabels = getTaxonomyNewLabels();
         Integer pageSize = 200;
-        List<List<NewLabel>> list = ConverterService.getPages(newLabels, pageSize);
+        List<List<NewLabel>> list = PaginationHelper.getPages(newLabels, pageSize);
         for (int i = 0; i < list.size(); i++) {
             try {
                 FileUtil.writeString(JSON_MAPPER.writeValueAsString(list.get(i)),
