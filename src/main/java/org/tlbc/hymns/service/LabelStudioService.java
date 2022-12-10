@@ -20,7 +20,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
-@Service @Slf4j
+@Service @Slf4j @Deprecated
 public class LabelStudioService {
 
     public static final String BASE_CHAR_NUMBER = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";

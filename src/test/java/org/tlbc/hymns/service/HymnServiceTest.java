@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.tlbc.hymns.model.HymnCategory;
+import org.tlbc.hymns.model.HymnEntity;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -17,10 +18,17 @@ class HymnServiceTest {
     private HymnService hymnService;
 
     @Test
-    void getCategories() {
-        List<HymnCategory> categories = hymnService.getCategories();
+    void getHymnCategories() {
+        List<HymnCategory> categories = hymnService.getHymnCategories();
         log.debug("categories size: {}, {}", categories.size(), categories);
         assertTrue(categories.size() > 0);
+    }
+
+    @Test
+    void getHymnLabels() {
+        List<HymnEntity> hymnEntities = hymnService.getHymnLabels();
+        log.debug("non-empty labels size: {}, {}", hymnEntities.size(), hymnEntities);
+        assertTrue(hymnEntities.size() > 0);
     }
 
     @Test

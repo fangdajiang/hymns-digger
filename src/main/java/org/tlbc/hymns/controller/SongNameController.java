@@ -27,7 +27,7 @@ public class SongNameController {
     }
     @GetMapping(value = "/hymns/categories")
     public List<HymnCategory> getCategories() {
-        return hymnService.getCategories();
+        return hymnService.getHymnCategories();
     }
 
     @GetMapping(value = "/summary")

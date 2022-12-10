@@ -9,7 +9,7 @@ import org.tlbc.hymns.model.dto.CreateLabelDTO;
 import javax.annotation.Resource;
 import java.util.List;
 
-@Slf4j @SpringBootTest
+@Slf4j @SpringBootTest @Deprecated
 class LabelStudioServiceTest {
 
     @Resource

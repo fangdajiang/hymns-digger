@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.tlbc.hymns.model.CategoryLabelEntity;
-import org.tlbc.hymns.service.LabelService;
+import org.tlbc.hymns.service.CategoryLabelService;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -14,16 +14,16 @@ import java.util.Set;
 
 @RestController @Slf4j @CrossOrigin
 @RequestMapping("/labels")
-public class LabelController {
+public class CategoryLabelController {
     @Resource
-    private LabelService labelService;
+    private CategoryLabelService categoryLabelService;
 
     @GetMapping
     public List<CategoryLabelEntity> getCategoryLabels() {
-        return labelService.getCategoryLabels();
+        return categoryLabelService.getCategoryLabels();
     }
     @GetMapping(value = "/categories")
     public Set<String> getCategories() {
-        return labelService.getBasicLabel();
+        return categoryLabelService.getCategories();
     }
 }

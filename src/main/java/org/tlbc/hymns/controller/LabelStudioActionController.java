@@ -9,7 +9,7 @@ import javax.annotation.Resource;
 import java.util.List;
 import java.util.Map;
 
-@RestController @Slf4j
+@RestController @Slf4j @Deprecated
 public class LabelStudioActionController {
     @Resource
     private LabelStudioService labelStudioService;
@@ -30,8 +30,4 @@ public class LabelStudioActionController {
         return Map.of("song", labelStudioService.process(action));
     }
 
-    @PostMapping("/actions2")
-    public void printRequestBody(@RequestBody Map<String, Object> map) {
-        log.debug("map: {}", map);
-    }
 }

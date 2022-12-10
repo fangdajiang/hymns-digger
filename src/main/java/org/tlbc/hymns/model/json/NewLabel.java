@@ -9,6 +9,7 @@ import lombok.ToString;
 import java.util.List;
 
 @Getter @Setter @ToString @AllArgsConstructor
+@Deprecated
 public class NewLabel {
     public NewLabel() {
         this.createdBy = 1;

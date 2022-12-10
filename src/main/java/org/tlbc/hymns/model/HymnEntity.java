@@ -20,8 +20,8 @@ public class HymnEntity {
     private String category1;
     @Column(name = "category2")
     private String category2;
-    @Column(name = "labels")
-    private String labels;
+    @Column(name = "label_set")
+    private String labelSet;
     @Column(name = "name_cn")
     private String nameCn;
     @Column(name = "name_en")

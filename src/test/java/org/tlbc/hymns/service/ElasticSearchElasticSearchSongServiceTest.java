@@ -58,7 +58,7 @@ class ElasticSearchElasticSearchSongServiceTest {
 
     @Test
     void getById() {
-        ElasticSearchSong elasticSearchSong = elasticSearchSongService.getById(12345).orElse(null);
+        ElasticSearchSong elasticSearchSong = elasticSearchSongService.getById(280).orElse(null);
         log.debug("song: {}", elasticSearchSong);
         assertNotNull(elasticSearchSong);
     }
