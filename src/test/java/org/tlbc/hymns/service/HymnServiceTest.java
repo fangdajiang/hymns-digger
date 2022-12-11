@@ -33,5 +33,8 @@ class HymnServiceTest {
 
     @Test
     void getHymns() {
+        List<HymnEntity> hymnEntities = hymnService.getHymns();
+        log.debug("hymn entities size: {}, {}", hymnEntities.size(), hymnEntities);
+        assertTrue(hymnEntities.size() > 0);
     }
 }

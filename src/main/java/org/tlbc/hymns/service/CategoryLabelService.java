@@ -36,7 +36,7 @@ public class CategoryLabelService {
 
     private List<CategoryLabel> categoryLabelList;
 
-    private static final Integer LOAD_CATEGORY_LABEL_SAMPLE_COUNT = 50;
+    private static final Integer LOAD_CATEGORY_LABEL_SAMPLE_COUNT = 5;
 
     @Resource
     private CategoryLabelRepository categoryLabelRepository;

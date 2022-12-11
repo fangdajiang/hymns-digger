@@ -9,10 +9,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.beanutils.BeanUtils;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
-import org.tlbc.hymns.helper.HttpRequestHelper;
 import org.tlbc.hymns.model.LabelStudioAction;
 import org.tlbc.hymns.model.ElasticSearchSong;
 import org.tlbc.hymns.model.dto.*;
+import org.tlbc.hymns.util.HymnUtil;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
@@ -77,7 +77,7 @@ public class LabelStudioService {
         }
         String createLabelRequestJson = JSON.toJSONString(createLabelRequestList);
         log.debug("createLabelRequest json list: {}", createLabelRequestJson);
-        List<?> createLabelDTOList = HttpRequestHelper.sendHttpRequest("http://localhost:8080/api/labels", HttpMethod.POST,
+        List<?> createLabelDTOList = HymnUtil.sendHttpRequest("http://localhost:8080/api/labels", HttpMethod.POST,
                 createLabelRequestJson, List.class, null).getBody();
         assert createLabelDTOList != null;
         log.debug("createLabelDTO response map: {}", createLabelDTOList.get(0));
@@ -118,7 +118,7 @@ public class LabelStudioService {
             createAnnotationRequest.setResult(List.of(taxonomyResultDTO));
 
             log.debug("createAnnotationRequest: {}", createAnnotationRequest);
-            String createAnnotationDTOString = HttpRequestHelper.sendHttpRequest("http://localhost:8080/api/tasks/{1}/annotations/",
+            String createAnnotationDTOString = HymnUtil.sendHttpRequest("http://localhost:8080/api/tasks/{1}/annotations/",
                     HttpMethod.POST, JSON.toJSONString(createAnnotationRequest), String.class, createTaskDTO.getId().toString()).getBody();
             assert createAnnotationDTOString != null;
             log.debug("createAnnotationDTO response string: {}", createAnnotationDTOString);
@@ -131,7 +131,7 @@ public class LabelStudioService {
     }
 
     public ElasticSearchSong retrieveDataFromLabelStudio(Integer taskId) {
-        CreateTaskDTO createTaskDTO = HttpRequestHelper.sendHttpRequest("http://localhost:8080/api/tasks/{1}", HttpMethod.GET,
+        CreateTaskDTO createTaskDTO = HymnUtil.sendHttpRequest("http://localhost:8080/api/tasks/{1}", HttpMethod.GET,
                 null, CreateTaskDTO.class, taskId.toString()).getBody();
         log.debug("createTaskDTO: {}", createTaskDTO);
         assert createTaskDTO != null;

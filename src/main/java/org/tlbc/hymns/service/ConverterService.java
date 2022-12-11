@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.tlbc.hymns.model.ElasticSearchSong;
 import org.tlbc.hymns.model.HymnEntity;
+import org.tlbc.hymns.util.HymnUtil;
 
 import javax.annotation.Resource;
 import java.util.*;
@@ -37,14 +38,14 @@ public class ConverterService {
         boolean update = false;
         Set<String> matchedLabelSet = getMatchedLabelSet(hymnEntity.getLabelSet());
         log.debug("matchedLabelSet: {}, label in elastic search song:{}", matchedLabelSet, elasticSearchSong.getLabels());
-        Set<String> matchedLabelSetTemp = new HashSet<>(matchedLabelSet);
-        matchedLabelSetTemp.removeAll(new HashSet<>(Arrays.asList(elasticSearchSong.getLabels().split("\\s+"))));
-        if (!matchedLabelSetTemp.isEmpty()) {
-            elasticSearchSong.setLabels(set2string(matchedLabelSet));
+        if (!HymnUtil.isIdenticalLabels(matchedLabelSet, elasticSearchSong.getLabels())) {
+            log.debug("NOT identical");
+            elasticSearchSong.setLabels(HymnUtil.set2string(matchedLabelSet));
             elasticSearchSong.setLabeled(true);
             update = true;
         }
         if (StringUtils.hasText(hymnEntity.getBookName()) && !hymnEntity.getBookName().equals(elasticSearchSong.getBookName())) {
+            log.debug("hymnEntity.getBookName(): {}, elasticSearchSong.getBookName():{}", hymnEntity.getBookName(), elasticSearchSong.getBookName());
             elasticSearchSong.setBookName(hymnEntity.getBookName());
             elasticSearchSong.setVerse(hymnEntity.getVerse());
             update = true;
@@ -99,22 +100,16 @@ public class ConverterService {
         if (StringUtils.hasText(labelSet)) {
             Set<String> matchedLabelSet = getMatchedLabelSet(labelSet);
             if (matchedLabelSet.size() > 0) {
-                elasticSearchSong.setLabels(set2string(matchedLabelSet));
+                elasticSearchSong.setLabels(HymnUtil.set2string(matchedLabelSet));
                 elasticSearchSong.setLabeled(true);
             }
         }
         String bookName = hymnLabel.getBookName();
-        if (!StringUtils.hasText(bookName)) {
+        if (StringUtils.hasText(bookName)) {
             elasticSearchSong.setBookName(bookName);
             elasticSearchSong.setVerse(hymnLabel.getVerse());
         }
         return elasticSearchSong;
-    }
-
-    private static String set2string(Set<String> labelSet) {
-        StringBuilder newLabelSet = new StringBuilder();
-        labelSet.forEach((s -> newLabelSet.append(s).append(" ")));
-        return newLabelSet.toString().trim();
     }
 
     private Set<String> getMatchedLabelSet(String labels) {
@@ -122,8 +117,8 @@ public class ConverterService {
         Arrays.asList(labels.split("\\s+")).forEach((s -> {
             if (StringUtils.hasText(s)) {
                 LABELS.forEach((label) -> {
-                    if (label.contains(s)) {
-                        newLabelSet.add(label);
+                    if (label.contains(s.trim())) {
+                        newLabelSet.add(label.trim());
                     }
                 });
             }
