@@ -36,7 +36,7 @@ public class CategoryLabelService {
 
     private List<CategoryLabel> categoryLabelList;
 
-    private static final Integer LOAD_CATEGORY_LABEL_SAMPLE_COUNT = 5;
+    private static final Integer LOAD_CATEGORY_LABEL_SAMPLE_COUNT = 50;
 
     @Resource
     private CategoryLabelRepository categoryLabelRepository;
@@ -53,7 +53,7 @@ public class CategoryLabelService {
     @PostConstruct
     public void loadCategoryLabels() {
         log.info("Loading category labels from ElasticSearch...");
-        this.categoryLabelList = getCategoryLabels(false);
+        this.categoryLabelList = getCategoryLabels(true);
     }
 
     public List<CategoryLabel> getCategoryLabels(boolean loadAll) {
