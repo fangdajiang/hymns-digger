@@ -11,6 +11,7 @@ import org.tlbc.hymns.service.HymnService;
 
 import javax.annotation.Resource;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 
 @RestController @Slf4j @CrossOrigin
@@ -36,7 +37,7 @@ public class SongNameController {
     }
     @GetMapping
     public List<ElasticSearchSong> searchSongs(@RequestParam("label") String[] labels) {
-        return elasticSearchSongService.findByLabels(Arrays.asList(labels));
+        return elasticSearchSongService.findByLabels(new HashSet<>(Arrays.asList(labels)));
     }
 
 

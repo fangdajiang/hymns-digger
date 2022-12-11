@@ -9,6 +9,7 @@ import org.tlbc.hymns.model.SongSummary;
 
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -24,7 +25,7 @@ class ElasticSearchElasticSearchSongServiceTest {
     void setUp() {
         elasticSearchSong = new ElasticSearchSong(12345, "测试", "Eng", "分类1", "分类2");
         elasticSearchSong.setNotationUrl("http://song-url");
-        elasticSearchSong.setLabels("三一 公义 圣洁");
+        elasticSearchSong.setLabels(null);
     }
 
     @Test
@@ -72,7 +73,7 @@ class ElasticSearchElasticSearchSongServiceTest {
 
     @Test
     void findByLabels() {
-        List<ElasticSearchSong> elasticSearchSongs = elasticSearchSongService.findByLabels(List.of("真神", "赞美"));
+        List<ElasticSearchSong> elasticSearchSongs = elasticSearchSongService.findByLabels(Set.of("慈爱恩慈", "救主拯救得救"));
         List<String> songNames = elasticSearchSongs.stream().map(ElasticSearchSong::getNameCn).collect(Collectors.toList());
         log.debug("song count: {}, names: {}", elasticSearchSongs.size(), songNames);
         assertTrue(elasticSearchSongs.size() > 0);

@@ -10,6 +10,7 @@ import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Service @Slf4j
 public class ElasticSearchSongService {
@@ -40,18 +41,18 @@ public class ElasticSearchSongService {
     public List<ElasticSearchSong> getByName(String name) {
         return elasticSearchSongRepository.findSongsByNameCnLike(name);
     }
-    public List<ElasticSearchSong> findByLabels(List<String> labelList) {
-        if (labelList.size() > 0 && labelList.size() <= 6) {
+    public List<ElasticSearchSong> findByLabels(Set<String> labelSet) {
+        if (labelSet.size() > 0 && labelSet.size() <= 6) {
             boolean labelIsValid = true;
-            for (String label : labelList) {
-                if (label.length() > 10) {
-                    log.error("length of a SINGLE label should <= 10");
+            for (String label : labelSet) {
+                if (label.length() > 20) {
+                    log.error("length of a SINGLE label should <= 20");
                     labelIsValid = false;
                     break;
                 }
             }
             if (labelIsValid) {
-                return new ArrayList<>(elasticSearchSongRepository.findSongsByLabels(labelList));
+                return new ArrayList<>(elasticSearchSongRepository.findSongsByLabels(labelSet));
             } else {
                 return List.of();
             }

@@ -7,8 +7,7 @@ import org.tlbc.hymns.model.ElasticSearchSong;
 import org.tlbc.hymns.model.HymnEntity;
 
 import javax.annotation.Resource;
-import java.util.Arrays;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicReference;
 
 @Service @Slf4j
@@ -36,10 +35,12 @@ public class ConverterService {
             return savedElasticSearchSong;
         });
         boolean update = false;
-        String matchedLabelSet = getMatchedLabelSet(hymnEntity.getLabelSet());
+        Set<String> matchedLabelSet = getMatchedLabelSet(hymnEntity.getLabelSet());
         log.debug("matchedLabelSet: {}, label in elastic search song:{}", matchedLabelSet, elasticSearchSong.getLabels());
-        if (!matchedLabelSet.equals(elasticSearchSong.getLabels())) {
-            elasticSearchSong.setLabels(matchedLabelSet);
+        Set<String> matchedLabelSetTemp = new HashSet<>(matchedLabelSet);
+        matchedLabelSetTemp.removeAll(new HashSet<>(Arrays.asList(elasticSearchSong.getLabels().split("\\s+"))));
+        if (!matchedLabelSetTemp.isEmpty()) {
+            elasticSearchSong.setLabels(set2string(matchedLabelSet));
             elasticSearchSong.setLabeled(true);
             update = true;
         }
@@ -96,9 +97,9 @@ public class ConverterService {
                 hymnLabel.getNameEn());
         String labelSet = hymnLabel.getLabelSet();
         if (StringUtils.hasText(labelSet)) {
-            String matchedLabelSet = getMatchedLabelSet(labelSet);
-            if (StringUtils.hasText(matchedLabelSet)) {
-                elasticSearchSong.setLabels(matchedLabelSet);
+            Set<String> matchedLabelSet = getMatchedLabelSet(labelSet);
+            if (matchedLabelSet.size() > 0) {
+                elasticSearchSong.setLabels(set2string(matchedLabelSet));
                 elasticSearchSong.setLabeled(true);
             }
         }
@@ -110,17 +111,23 @@ public class ConverterService {
         return elasticSearchSong;
     }
 
-    private String getMatchedLabelSet(String labelSet) {
+    private static String set2string(Set<String> labelSet) {
         StringBuilder newLabelSet = new StringBuilder();
-        Arrays.asList(labelSet.split("\\s+")).forEach((s -> {
+        labelSet.forEach((s -> newLabelSet.append(s).append(" ")));
+        return newLabelSet.toString().trim();
+    }
+
+    private Set<String> getMatchedLabelSet(String labels) {
+        Set<String> newLabelSet = new HashSet<>();
+        Arrays.asList(labels.split("\\s+")).forEach((s -> {
             if (StringUtils.hasText(s)) {
                 LABELS.forEach((label) -> {
-                    if (label.contains(s) && !newLabelSet.toString().contains(label)) {
-                        newLabelSet.append(label).append(" ");
+                    if (label.contains(s)) {
+                        newLabelSet.add(label);
                     }
                 });
             }
         }));
-        return newLabelSet.toString().trim();
+        return newLabelSet;
     }
 }
