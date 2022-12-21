@@ -8,10 +8,10 @@ import org.springframework.data.elasticsearch.annotations.FieldType;
 
 @Document(indexName = "song") @Data
 public class ElasticSearchSong {
-    public ElasticSearchSong(Integer id, String category1, String category2, String nameCn, String nameEn) {
+    public ElasticSearchSong(Integer id, String group1, String group2, String nameCn, String nameEn) {
         this.id = id;
-        this.category1 = category1;
-        this.category2 = category2;
+        this.group1 = group1;
+        this.group2 = group2;
         this.nameCn = nameCn;
         this.nameEn = nameEn;
     }
@@ -24,8 +24,8 @@ public class ElasticSearchSong {
     private String notationUrl;
 
     private String nameEn;
-    private String category1;
-    private String category2;
+    private String group1;
+    private String group2;
     private String bookName;
     private String verse;
 

@@ -92,8 +92,8 @@ public class ConverterService {
     private ElasticSearchSong getElasticSearchSong(HymnEntity hymnLabel) {
         ElasticSearchSong elasticSearchSong = new ElasticSearchSong(
                 hymnLabel.getId(),
-                hymnLabel.getCategory1(),
-                hymnLabel.getCategory2(),
+                hymnLabel.getGroup1(),
+                hymnLabel.getGroup2(),
                 hymnLabel.getNameCn(),
                 hymnLabel.getNameEn());
         String labelSet = hymnLabel.getLabelSet();

@@ -4,7 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
-import org.tlbc.hymns.model.HymnCategory;
+import org.tlbc.hymns.model.HymnGroup;
 import org.tlbc.hymns.model.HymnEntity;
 import org.tlbc.hymns.repository.HymnRepository;
 
@@ -20,13 +20,13 @@ public class HymnService {
     private HymnRepository hymnRepository;
 
     public List<HymnEntity> getHymns() {
-        return hymnRepository.findAll(Sort.by(Sort.Direction.DESC, "category1"));
+        return hymnRepository.findAll(Sort.by(Sort.Direction.DESC, "group1"));
     }
 
-    public List<HymnCategory> getHymnCategories() {
-        List<HymnCategory> hymnCategories = new ArrayList<>();
-        getHymns().forEach((h) -> hymnCategories.add(new HymnCategory(h.getId(), h.getCategory1(), h.getCategory2())));
-        return hymnCategories;
+    public List<HymnGroup> getHymnGroups() {
+        List<HymnGroup> hymnGroups = new ArrayList<>();
+        getHymns().forEach((h) -> hymnGroups.add(new HymnGroup(h.getId(), h.getGroup1(), h.getGroup2())));
+        return hymnGroups;
     }
 
     public List<HymnEntity> getHymnLabels() {

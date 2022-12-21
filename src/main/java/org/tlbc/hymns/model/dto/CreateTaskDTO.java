@@ -16,8 +16,8 @@ public class CreateTaskDTO {
     public static class SongDTO {
         private String text;
         private String nameEn;
-        private String category1;
-        private String category2;
+        private String group1;
+        private String group2;
         private String labels;
     }
 }

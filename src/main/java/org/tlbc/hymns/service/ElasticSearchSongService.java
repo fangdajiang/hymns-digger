@@ -57,7 +57,7 @@ public class ElasticSearchSongService {
                 return List.of();
             }
         } else {
-            log.error("size of labels should > 0 and <= 6");
+            log.error("size of labels should > 0 and <= 6, but is: {},{}", labelSet.size(), labelSet);
             return List.of();
         }
     }

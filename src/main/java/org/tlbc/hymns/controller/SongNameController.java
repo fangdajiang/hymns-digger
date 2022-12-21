@@ -3,7 +3,7 @@ package org.tlbc.hymns.controller;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 import org.tlbc.hymns.model.ElasticSearchSong;
-import org.tlbc.hymns.model.HymnCategory;
+import org.tlbc.hymns.model.HymnGroup;
 import org.tlbc.hymns.model.HymnEntity;
 import org.tlbc.hymns.model.SongSummary;
 import org.tlbc.hymns.service.ElasticSearchSongService;
@@ -26,9 +26,9 @@ public class SongNameController {
     public List<HymnEntity> getHymns() {
         return hymnService.getHymns();
     }
-    @GetMapping(value = "/hymns/categories")
-    public List<HymnCategory> getCategories() {
-        return hymnService.getHymnCategories();
+    @GetMapping(value = "/hymns/groups")
+    public List<HymnGroup> getGroups() {
+        return hymnService.getHymnGroups();
     }
 
     @GetMapping(value = "/summary")
@@ -39,10 +39,8 @@ public class SongNameController {
     public List<ElasticSearchSong> searchSongs(@RequestParam("label") String[] labels) {
         return elasticSearchSongService.findByLabels(new HashSet<>(Arrays.asList(labels)));
     }
-
-
     @GetMapping(value = "/{id}")
     public ElasticSearchSong getSong(@PathVariable Integer id) {
-        return new ElasticSearchSong(id, "中文", "Eng", "分类1", "分类2");
+        return new ElasticSearchSong(id, "分类1", "分类2", "中文", "Eng");
     }
 }

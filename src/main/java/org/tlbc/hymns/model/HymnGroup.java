@@ -8,8 +8,8 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString @AllArgsConstructor
-public class HymnCategory {
+public class HymnGroup {
     private Integer id;
-    private String category1;
-    private String category2;
+    private String group1;
+    private String group2;
 }

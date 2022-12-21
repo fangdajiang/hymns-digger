@@ -3,7 +3,7 @@ package org.tlbc.hymns.service;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.tlbc.hymns.model.HymnCategory;
+import org.tlbc.hymns.model.HymnGroup;
 import org.tlbc.hymns.model.HymnEntity;
 
 import javax.annotation.Resource;
@@ -18,10 +18,10 @@ class HymnServiceTest {
     private HymnService hymnService;
 
     @Test
-    void getHymnCategories() {
-        List<HymnCategory> categories = hymnService.getHymnCategories();
-        log.debug("categories size: {}, {}", categories.size(), categories);
-        assertTrue(categories.size() > 0);
+    void getHymnGroups() {
+        List<HymnGroup> groups = hymnService.getHymnGroups();
+        log.debug("groups size: {}, {}", groups.size(), groups);
+        assertTrue(groups.size() > 0);
     }
 
     @Test

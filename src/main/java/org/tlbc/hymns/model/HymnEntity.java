@@ -16,10 +16,10 @@ public class HymnEntity {
     @Id
     @Column(name = "id", nullable = false)
     private int id;
-    @Column(name = "category1")
-    private String category1;
-    @Column(name = "category2")
-    private String category2;
+    @Column(name = "group1")
+    private String group1;
+    @Column(name = "group2")
+    private String group2;
     @Column(name = "labels")
     private String labelSet;
     @Column(name = "name_cn")

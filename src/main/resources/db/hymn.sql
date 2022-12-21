@@ -29,8 +29,8 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `hymn` (
                          `id` int NOT NULL,
-                         `category1` varchar(4) DEFAULT NULL,
-                         `category2` varchar(4) DEFAULT NULL,
+                         `group1` varchar(4) DEFAULT NULL,
+                         `group2` varchar(4) DEFAULT NULL,
                          `label_set` varchar(17) DEFAULT NULL,
                          `name_cn` varchar(25) DEFAULT NULL,
                          `name_en` varchar(46) DEFAULT NULL,
@@ -42,7 +42,7 @@ CREATE TABLE `hymn` (
 -- 转存表中的数据 `hymn`
 --
 
-INSERT INTO `hymn` (`id`, `category1`, `category2`, `label_set`, `name_cn`, `name_en`, `book_name`, `verse`) VALUES
+INSERT INTO `hymn` (`id`, `group1`, `group2`, `label_set`, `name_cn`, `name_en`, `book_name`, `verse`) VALUES
                                                                                                                (1, '真神', '荣耀权能', '', '圣哉、圣哉、圣哉', 'Holy', '', ''),
                                                                                                                (2, '基督', '救赎恩典', '', '何等奇妙的救主', 'What a Wonderful Savior', '', ''),
                                                                                                                (3, '真神', '创造奇工', '', '祢真伟大', 'How Great Thou Art!', '', ''),
