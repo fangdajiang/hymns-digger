@@ -13,6 +13,7 @@ import javax.annotation.Resource;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @RestController @Slf4j @CrossOrigin
 @RequestMapping("/songs")
@@ -30,7 +31,10 @@ public class SongNameController {
     public List<HymnGroup> getGroups() {
         return hymnService.getHymnGroups();
     }
-
+    @GetMapping(value = "/hymns/group1")
+    public Set<String> getGroup1() {
+        return hymnService.getGroup1();
+    }
     @GetMapping(value = "/summary")
     public SongSummary getSummary() {
         return elasticSearchSongService.getSummary();

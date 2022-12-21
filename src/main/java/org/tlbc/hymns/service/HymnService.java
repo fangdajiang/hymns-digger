@@ -9,9 +9,7 @@ import org.tlbc.hymns.model.HymnEntity;
 import org.tlbc.hymns.repository.HymnRepository;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 @Slf4j
@@ -25,8 +23,25 @@ public class HymnService {
 
     public List<HymnGroup> getHymnGroups() {
         List<HymnGroup> hymnGroups = new ArrayList<>();
-        getHymns().forEach((h) -> hymnGroups.add(new HymnGroup(h.getId(), h.getGroup1(), h.getGroup2())));
+        getHymns().forEach((h) -> {
+            if (StringUtils.hasText(h.getGroup1()) && StringUtils.hasText(h.getGroup2())) {
+                HymnGroup hg = new HymnGroup(h.getGroup1(), h.getGroup2());
+                if (!hymnGroups.contains(hg)) {
+                    hymnGroups.add(hg);
+                }
+            }
+        });
         return hymnGroups;
+    }
+
+    public Set<String> getGroup1() {
+        Set<String> set = new HashSet<>();
+        getHymns().forEach((c) -> {
+            if (StringUtils.hasText(c.getGroup1())) {
+                set.add(c.getGroup1());
+            }
+        });
+        return set;
     }
 
     public List<HymnEntity> getHymnLabels() {
