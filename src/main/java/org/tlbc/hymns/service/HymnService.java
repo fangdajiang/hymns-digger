@@ -16,6 +16,8 @@ import java.util.*;
 public class HymnService {
     @Resource
     private HymnRepository hymnRepository;
+    @Resource
+    private ElasticSearchSongService elasticSearchSongService;
 
     public List<HymnEntity> getHymns() {
         return hymnRepository.findAll(Sort.by(Sort.Direction.DESC, "group1"));

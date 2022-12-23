@@ -12,6 +12,7 @@ public interface ElasticSearchSongRepository extends ElasticsearchRepository<Ela
     List<ElasticSearchSong> findSongsByNameCnLike(String songName);
 
     List<ElasticSearchSong> findSongsByLabels(Set<String> labelList);
+    List<ElasticSearchSong> findSongsByGroup2(String group2Name);
 
     List<ElasticSearchSong> findSongsByLabeled(Boolean labeled);
 }

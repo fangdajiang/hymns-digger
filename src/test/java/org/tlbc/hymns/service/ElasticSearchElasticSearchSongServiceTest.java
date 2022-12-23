@@ -90,4 +90,12 @@ class ElasticSearchElasticSearchSongServiceTest {
         log.debug("songSummary: {}", songSummary);
         assertTrue(songSummary.getTotalNumber() > 0);
     }
+
+    @Test
+    void findByGroup2() {
+        List<ElasticSearchSong> elasticSearchSongs = elasticSearchSongService.findByGroup2("创造");
+        List<String> songNames = elasticSearchSongs.stream().map(ElasticSearchSong::getNameCn).collect(Collectors.toList());
+        log.debug("song count: {}, names: {}", elasticSearchSongs.size(), songNames);
+        assertTrue(elasticSearchSongs.size() > 0);
+    }
 }

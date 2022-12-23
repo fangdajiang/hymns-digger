@@ -39,6 +39,10 @@ public class SongNameController {
     public SongSummary getSummary() {
         return elasticSearchSongService.getSummary();
     }
+    @GetMapping(value = "/group2songs")
+    public List<ElasticSearchSong> searchSongs(@RequestParam("group2Name") String group2Name) {
+        return elasticSearchSongService.findByGroup2(group2Name);
+    }
     @GetMapping
     public List<ElasticSearchSong> searchSongs(@RequestParam("label") String[] labels) {
         return elasticSearchSongService.findByLabels(new HashSet<>(Arrays.asList(labels)));
