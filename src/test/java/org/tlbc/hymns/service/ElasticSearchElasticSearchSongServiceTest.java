@@ -38,7 +38,7 @@ class ElasticSearchElasticSearchSongServiceTest {
         ElasticSearchSong savedElasticSearchSong = elasticSearchSongService.save(elasticSearchSong);
         assertNotNull(savedElasticSearchSong);
         log.debug("savedSong: {}", savedElasticSearchSong);
-        ElasticSearchSong foundElasticSearchSong = elasticSearchSongService.getByName(savedElasticSearchSong.getNameCn()).get(0);
+        ElasticSearchSong foundElasticSearchSong = elasticSearchSongService.getByNameCn(savedElasticSearchSong.getNameCn()).get(0);
         log.debug("foundSong: {}", foundElasticSearchSong);
         assertNotNull(foundElasticSearchSong);
     }
@@ -65,8 +65,8 @@ class ElasticSearchElasticSearchSongServiceTest {
     }
 
     @Test
-    void getByName() {
-        List<ElasticSearchSong> elasticSearchSongs = elasticSearchSongService.getByName("爱主更深");
+    void getByNameCn() {
+        List<ElasticSearchSong> elasticSearchSongs = elasticSearchSongService.getByNameCn("颂赞");
         log.debug("songs size:{}  , {}", elasticSearchSongs.size(), elasticSearchSongs);
         assertTrue(elasticSearchSongs.size() > 0);
     }

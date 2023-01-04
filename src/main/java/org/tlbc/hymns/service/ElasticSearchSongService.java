@@ -44,8 +44,8 @@ public class ElasticSearchSongService {
     public Optional<ElasticSearchSong> getById(Integer id) {
         return elasticSearchSongRepository.findById(id);
     }
-    public List<ElasticSearchSong> getByName(String name) {
-        return elasticSearchSongRepository.findSongsByNameCnLike(name);
+    public List<ElasticSearchSong> getByNameCn(String nameCn) {
+        return elasticSearchSongRepository.findByNameCnContaining(nameCn);
     }
     public List<ElasticSearchSong> findByGroup2(String group2Name) {
         if (StringUtils.hasText(group2Name)) {

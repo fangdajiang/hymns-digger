@@ -40,12 +40,16 @@ public class SongNameController {
         return elasticSearchSongService.getSummary();
     }
     @GetMapping(value = "/group2songs")
-    public List<ElasticSearchSong> searchSongs(@RequestParam("group2Name") String group2Name) {
+    public List<ElasticSearchSong> searchSongsByGroup2Name(@RequestParam("group2Name") String group2Name) {
         return elasticSearchSongService.findByGroup2(group2Name);
     }
     @GetMapping
-    public List<ElasticSearchSong> searchSongs(@RequestParam("label") String[] labels) {
+    public List<ElasticSearchSong> searchSongsByLabels(@RequestParam("label") String[] labels) {
         return elasticSearchSongService.findByLabels(new HashSet<>(Arrays.asList(labels)));
+    }
+    @GetMapping(value = "/nameCnSongs")
+    public List<ElasticSearchSong> searchSongsByNameCn(@RequestParam("nameCn") String nameCn) {
+        return elasticSearchSongService.getByNameCn(nameCn);
     }
     @GetMapping(value = "/{id}")
     public ElasticSearchSong getSong(@PathVariable Integer id) {

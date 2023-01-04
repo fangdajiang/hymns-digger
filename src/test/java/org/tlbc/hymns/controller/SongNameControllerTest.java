@@ -11,7 +11,6 @@ import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.tlbc.hymns.model.ElasticSearchSong;
-import org.tlbc.hymns.model.HymnCategory;
 import org.tlbc.hymns.model.HymnEntity;
 import org.tlbc.hymns.model.SongSummary;
 import org.tlbc.hymns.service.ElasticSearchSongService;
@@ -43,8 +42,6 @@ class SongNameControllerTest {
         // Configure HymnService.getHymns(...).
         final HymnEntity hymnEntity = new HymnEntity();
         hymnEntity.setId(0);
-        hymnEntity.setCategory1("category1");
-        hymnEntity.setCategory2("category2");
         hymnEntity.setLabelSet("labelSet");
         hymnEntity.setNameCn("nameCn");
         hymnEntity.setNameEn("nameEn");
@@ -70,38 +67,6 @@ class SongNameControllerTest {
 
         // Run the test
         final MockHttpServletResponse response = mockMvc.perform(get("/songs/hymns")
-                        .accept(MediaType.APPLICATION_JSON))
-                .andReturn().getResponse();
-
-        // Verify the results
-        assertThat(response.getStatus()).isEqualTo(HttpStatus.OK.value());
-        assertThat(response.getContentAsString()).isEqualTo("[]");
-    }
-
-    @Test
-    void testGetCategories() throws Exception {
-        // Setup
-        // Configure HymnService.getHymnCategories(...).
-        final List<HymnCategory> hymnCategories = List.of(new HymnCategory(0, "category1", "category2"));
-        when(mockHymnService.getHymnCategories()).thenReturn(hymnCategories);
-
-        // Run the test
-        final MockHttpServletResponse response = mockMvc.perform(get("/songs/hymns/categories")
-                        .accept(MediaType.APPLICATION_JSON))
-                .andReturn().getResponse();
-
-        // Verify the results
-        assertThat(response.getStatus()).isEqualTo(HttpStatus.OK.value());
-        assertThat(response.getContentAsString()).isEqualTo("expectedResponse");
-    }
-
-    @Test
-    void testGetCategories_HymnServiceReturnsNoItems() throws Exception {
-        // Setup
-        when(mockHymnService.getHymnCategories()).thenReturn(Collections.emptyList());
-
-        // Run the test
-        final MockHttpServletResponse response = mockMvc.perform(get("/songs/hymns/categories")
                         .accept(MediaType.APPLICATION_JSON))
                 .andReturn().getResponse();
 
