@@ -47,8 +47,8 @@ public class SongNameController {
     public List<ElasticSearchSong> searchSongsByLabels(@RequestParam("label") String[] labels) {
         return elasticSearchSongService.findByLabels(new HashSet<>(Arrays.asList(labels)));
     }
-    @GetMapping(value = "/nameCnSongs")
-    public List<ElasticSearchSong> searchSongsByNameCn(@RequestParam("nameCn") String nameCn) {
+    @GetMapping(value = "/cnSongs")
+    public List<ElasticSearchSong> searchSongsByNameCn(@RequestParam("name") String nameCn) {
         return elasticSearchSongService.getByNameCn(nameCn);
     }
     @GetMapping(value = "/{id}")
