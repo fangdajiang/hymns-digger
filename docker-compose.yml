@@ -2,7 +2,7 @@ version: '3'
 services:
   hymns-digger:
     container_name: hd
-    image: hymns-digger:0.2.1
+    image: hymns-digger:0.3.0
     ports:
       - "8082:8082"
     restart: unless-stopped
@@ -13,7 +13,7 @@ services:
       - phpmyadmin
   hymns-mysql:
     container_name: hm
-    image: hymns-mysql:0.1.1
+    image: hymns-mysql:0.2.0
     ports:
       - "3306:3306"
     restart: unless-stopped
