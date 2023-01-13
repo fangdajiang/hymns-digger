@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
 import static org.junit.jupiter.api.Assertions.*;
 
 @Slf4j @SpringBootTest
-class ElasticSearchElasticSearchSongServiceTest {
+class ElasticSearchSongServiceTest {
     private ElasticSearchSong elasticSearchSong;
 
     @Resource

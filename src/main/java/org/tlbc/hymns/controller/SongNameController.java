@@ -2,10 +2,7 @@ package org.tlbc.hymns.controller;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
-import org.tlbc.hymns.model.ElasticSearchSong;
-import org.tlbc.hymns.model.HymnGroup;
-import org.tlbc.hymns.model.HymnEntity;
-import org.tlbc.hymns.model.SongSummary;
+import org.tlbc.hymns.model.*;
 import org.tlbc.hymns.service.ElasticSearchSongService;
 import org.tlbc.hymns.service.HymnService;
 
@@ -28,8 +25,8 @@ public class SongNameController {
         return hymnService.getHymns();
     }
     @GetMapping(value = "/hymns/groups")
-    public List<HymnGroup> getGroups() {
-        return hymnService.getHymnGroups();
+    public List<AnnotatedHymnGroup> getGroups() {
+        return hymnService.getLoadedHymnGroups();
     }
     @GetMapping(value = "/hymns/group1")
     public Set<String> getGroup1() {
