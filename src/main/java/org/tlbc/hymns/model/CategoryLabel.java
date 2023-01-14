@@ -17,5 +17,5 @@ public class CategoryLabel {
     private Integer id;
     private String category;
     private String label;
-    private Integer labelAnnotatedCount;
+    private Integer annotatedLabelCount;
 }

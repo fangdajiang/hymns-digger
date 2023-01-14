@@ -46,7 +46,7 @@ public class CategoryLabelService {
                 elasticSearchSongs = elasticSearchSongService.findByLabels(Set.of(categoryLabelEntity.getLabel()));
             }
             log.debug("category:{}, label:{}, elasticSearchSongs size: {}", categoryLabel.getCategory(), categoryLabel.getLabel(), elasticSearchSongs.size());
-            categoryLabel.setLabelAnnotatedCount(elasticSearchSongs.size());
+            categoryLabel.setAnnotatedLabelCount(elasticSearchSongs.size());
             categoryLabels.add(categoryLabel);
         });
         return categoryLabels;

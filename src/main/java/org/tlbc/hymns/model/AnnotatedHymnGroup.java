@@ -8,5 +8,5 @@ import lombok.*;
 public class AnnotatedHymnGroup {
     private String group1;
     private String group2;
-    private Integer labelAnnotatedCount;
+    private Integer annotatedGroupCount;
 }

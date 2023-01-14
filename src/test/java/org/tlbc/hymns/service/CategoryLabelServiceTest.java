@@ -45,7 +45,7 @@ class CategoryLabelServiceTest {
 
     @Test
     void getCategoryLabels() {
-        List<CategoryLabel> categoryLabels = categoryLabelService.getCategoryLabels(false);
+        List<CategoryLabel> categoryLabels = categoryLabelService.getCategoryLabels(true);
         log.debug("categoryLabels size: {}", categoryLabels.size());
         assertTrue(categoryLabels.size() > 0);
     }
