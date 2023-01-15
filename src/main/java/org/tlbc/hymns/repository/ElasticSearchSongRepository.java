@@ -9,7 +9,7 @@ import java.util.Set;
 
 @Repository
 public interface ElasticSearchSongRepository extends ElasticsearchRepository<ElasticSearchSong, Integer> {
-    List<ElasticSearchSong> findByNameCnContaining(String songName);
+    List<ElasticSearchSong> findByNameCn(String songName);
 
     List<ElasticSearchSong> findSongsByLabels(Set<String> labelList);
     List<ElasticSearchSong> findSongsByGroup2(String group2Name);

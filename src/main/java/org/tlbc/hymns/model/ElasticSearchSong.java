@@ -17,7 +17,7 @@ public class ElasticSearchSong {
     }
     @Id
     private Integer id;
-    @Field(analyzer = "ik_max_word", searchAnalyzer = "ik_max_word", type = FieldType.Text)
+    @Field(analyzer = "ik_max_word", searchAnalyzer = "ik_smart", type = FieldType.Text)
     private String nameCn;
     @Field(analyzer = "ik_smart", searchAnalyzer = "ik_smart", type = FieldType.Text)
     private String labels;
