@@ -44,7 +44,7 @@ public class ElasticSearchSongService {
     public Optional<ElasticSearchSong> getById(Integer id) {
         return elasticSearchSongRepository.findById(id);
     }
-    public List<ElasticSearchSong> getByNameCn(String nameCn) {
+    public List<ElasticSearchSong> findByNameCn(String nameCn) {
         return elasticSearchSongRepository.findByNameCn(nameCn);
     }
     public List<ElasticSearchSong> findByGroup2(String group2Name) {

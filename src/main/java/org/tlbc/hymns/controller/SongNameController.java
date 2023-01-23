@@ -46,7 +46,7 @@ public class SongNameController {
     }
     @GetMapping(value = "/cnSongs")
     public List<ElasticSearchSong> searchSongsByNameCn(@RequestParam("name") String nameCn) {
-        return elasticSearchSongService.getByNameCn(nameCn);
+        return elasticSearchSongService.findByNameCn(nameCn);
     }
     @GetMapping(value = "/{id}")
     public ElasticSearchSong getSong(@PathVariable Integer id) {
