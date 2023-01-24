@@ -9,6 +9,7 @@ import org.tlbc.hymns.util.HymnUtil;
 
 import javax.annotation.Resource;
 import java.util.*;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
 
 @Service @Slf4j
@@ -29,34 +30,40 @@ public class ConverterService {
     }
 
     private Integer updateLabelSet2ElasticSearchSongLabels(HymnEntity hymnEntity) {
+        AtomicBoolean add = new AtomicBoolean(false);
         ElasticSearchSong elasticSearchSong = elasticSearchSongService.getById(hymnEntity.getId()).orElseGet(() -> {
             log.debug("ready to add song, id:{}, name:{}", hymnEntity.getId(), hymnEntity.getNameCn());
             ElasticSearchSong savedElasticSearchSong = elasticSearchSongService.save(getElasticSearchSong(hymnEntity));
             log.debug("saved new song: {} when updating hymn id:{}", savedElasticSearchSong, hymnEntity.getId());
+            add.set(true);
             return savedElasticSearchSong;
         });
-        boolean update = false;
-        Set<String> matchedLabelSet = getMatchedLabelSet(hymnEntity.getLabelSet());
-        log.debug("matchedLabelSet: {}, label in elastic search song:{}", matchedLabelSet, elasticSearchSong.getLabels());
-        if (!HymnUtil.isIdenticalLabels(matchedLabelSet, elasticSearchSong.getLabels())) {
-            log.debug("NOT identical");
-            elasticSearchSong.setLabels(HymnUtil.set2string(matchedLabelSet));
-            elasticSearchSong.setLabeled(true);
-            update = true;
-        }
-        if (StringUtils.hasText(hymnEntity.getBookName()) && !hymnEntity.getBookName().equals(elasticSearchSong.getBookName())) {
-            log.debug("hymnEntity.getBookName(): {}, elasticSearchSong.getBookName():{}", hymnEntity.getBookName(), elasticSearchSong.getBookName());
-            elasticSearchSong.setBookName(hymnEntity.getBookName());
-            elasticSearchSong.setVerse(hymnEntity.getVerse());
-            update = true;
-        }
-        if (update) {
-            ElasticSearchSong savedElasticSearchSong = elasticSearchSongService.save(elasticSearchSong);
-            log.debug("savedSong: {}", savedElasticSearchSong);
+        if (add.equals(new AtomicBoolean(true))) {
             return 1;
         } else {
-            log.debug("ignored one when updating: {}, {}", elasticSearchSong.getNameCn(), elasticSearchSong.getLabels());
-            return 0;
+            boolean update = false;
+            Set<String> matchedLabelSet = getMatchedLabelSet(hymnEntity.getLabelSet());
+            log.debug("matchedLabelSet: {}, label in elastic search song:{}", matchedLabelSet, elasticSearchSong.getLabels());
+            if (!HymnUtil.isIdenticalLabels(matchedLabelSet, elasticSearchSong.getLabels())) {
+                log.debug("NOT identical");
+                elasticSearchSong.setLabels(HymnUtil.set2string(matchedLabelSet));
+                elasticSearchSong.setLabeled(true);
+                update = true;
+            }
+            if (StringUtils.hasText(hymnEntity.getBookName()) && !hymnEntity.getBookName().equals(elasticSearchSong.getBookName())) {
+                log.debug("hymnEntity.getBookName(): {}, elasticSearchSong.getBookName():{}", hymnEntity.getBookName(), elasticSearchSong.getBookName());
+                elasticSearchSong.setBookName(hymnEntity.getBookName());
+                elasticSearchSong.setVerse(hymnEntity.getVerse());
+                update = true;
+            }
+            if (update) {
+                ElasticSearchSong savedElasticSearchSong = elasticSearchSongService.save(elasticSearchSong);
+                log.debug("savedSong: {}", savedElasticSearchSong);
+                return 1;
+            } else {
+                log.debug("ignored one when updating: {}, {}", elasticSearchSong.getNameCn(), elasticSearchSong.getLabels());
+                return 0;
+            }
         }
     }
 

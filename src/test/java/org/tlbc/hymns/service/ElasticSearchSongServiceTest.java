@@ -93,7 +93,7 @@ class ElasticSearchSongServiceTest {
 
     @Test
     void findByGroup2() {
-        List<ElasticSearchSong> elasticSearchSongs = elasticSearchSongService.findByGroup2("荣耀权能");
+        List<ElasticSearchSong> elasticSearchSongs = elasticSearchSongService.findByGroup2("诞生");
         List<String> songNames = elasticSearchSongs.stream().map(ElasticSearchSong::getNameCn).collect(Collectors.toList());
         log.debug("song count: {}, names: {}", elasticSearchSongs.size(), songNames);
         assertTrue(elasticSearchSongs.size() > 0);
