@@ -25,6 +25,7 @@ public class ElasticSearchSong {
 
     private String nameEn;
     private String group1;
+    @Field(analyzer = "ik_smart", searchAnalyzer = "ik_smart", type = FieldType.Text)
     private String group2;
     private String bookName;
     private String verse;

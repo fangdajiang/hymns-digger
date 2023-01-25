@@ -49,7 +49,7 @@ public class ElasticSearchSongService {
     }
     public List<ElasticSearchSong> findByGroup2(String group2Name) {
         if (StringUtils.hasText(group2Name)) {
-            return new ArrayList<>(elasticSearchSongRepository.findSongsByGroup2(group2Name));
+            return new ArrayList<>(elasticSearchSongRepository.findByGroup2(group2Name));
         } else {
             log.error("group2Name should NOT be empty: {}", group2Name);
             return List.of();
