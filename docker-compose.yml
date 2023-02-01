@@ -13,7 +13,7 @@ services:
       - phpmyadmin
   hymns-mysql:
     container_name: hm
-    image: hymns-mysql:0.2.2
+    image: hymns-mysql:0.2.3
     ports:
       - "3306:3306"
     restart: unless-stopped
