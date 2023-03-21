@@ -50,6 +50,7 @@ public class SongNameController {
     }
     @GetMapping(value = "/{id}")
     public ElasticSearchSong getSong(@PathVariable Integer id) {
+        log.debug("id:{}", id);
         return new ElasticSearchSong(id, "分类1", "分类2", "中文", "Eng");
     }
 }
