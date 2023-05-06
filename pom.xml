@@ -9,6 +9,7 @@
     <version>1.0-SNAPSHOT</version>
 
     <properties>
+        <jakarta.json-api.version>2.1.1</jakarta.json-api.version>
         <spring-boot.version>2.7.5</spring-boot.version>
         <elasticsearch.version>8.4.3</elasticsearch.version>
         <maven.compiler.source>11</maven.compiler.source>
@@ -28,6 +29,11 @@
     </dependencyManagement>
 
     <dependencies>
+        <dependency>
+            <groupId>jakarta.json</groupId>
+            <artifactId>jakarta.json-api</artifactId>
+            <version>${jakarta.json-api.version}</version>
+        </dependency>
         <dependency>
             <groupId>com.mysql</groupId>
             <artifactId>mysql-connector-j</artifactId>
