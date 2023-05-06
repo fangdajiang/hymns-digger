@@ -21,7 +21,7 @@ services:
     container_name: hymns-pma
     image: phpmyadmin
     ports:
-      - "8085:80"
+      - "8084:80"
     links:
       - hymns-mysql:db
     restart: unless-stopped
